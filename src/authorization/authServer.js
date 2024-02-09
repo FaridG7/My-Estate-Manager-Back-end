@@ -1,5 +1,5 @@
 import express from "express";
-import { getToken, setManager } from "./controller";
+import { getToken, setUser } from "./controller";
 const cors = require("cors");
 
 const app = express();
@@ -12,7 +12,7 @@ app.use(cors({
 }));
 app.use(express.json());
 
-app.post("/login", setManager, getToken);
+app.post("/login", setUser, getToken);
 
 app.listen(PORT, (err) => {
   if (err) {

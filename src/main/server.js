@@ -1,7 +1,10 @@
+const cors = require("cors");
+
 import express from "express";
 import { authenticateToken } from "../authorization/controller";
 import managerRoute from "./manager/managerRoute";
-const cors = require("cors");
+import peopleRoute from "./people/peopleRoute";
+
 
 const app = express();
 
@@ -18,6 +21,7 @@ app.use(express.json());
 app.use(authenticateToken);
 
 app.use("/manager", managerRoute);
+app.use("/people", peopleRoute);
 
 app.listen(PORT, (err) => {
   if (err) {

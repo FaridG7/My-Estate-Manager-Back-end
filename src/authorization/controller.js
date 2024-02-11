@@ -27,6 +27,7 @@ async function getUser(manager_id) {
     const user = await db.one(queries.getUser, [manager_id]);
     return user;
   } catch (error) {
+    console.log(error)
     return null;
   }
 }

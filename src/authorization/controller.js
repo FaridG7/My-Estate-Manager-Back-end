@@ -27,7 +27,7 @@ async function getUser(manager_id) {
     const user = await db.one(queries.getUser, [manager_id]);
     return user;
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return null;
   }
 }
@@ -47,7 +47,7 @@ export async function authenticateToken(req, res, next) {
   try {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
-    if (!token) return res.status(400).send("bad request");
+    if (!token) return res.status(403).send("Token not found");
     const user = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     if (user) {
       req.user = user;

@@ -12,6 +12,7 @@ import {
 const express = require("express");
 const router = express.Router();
 
+router.get("/", getPeople);
 router.get("/owners", getOwners);
 router.get("/buyers", getBuyers);
 router.get("/renters", getRenters);

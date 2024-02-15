@@ -28,18 +28,22 @@ export async function insertContract(req, res) {
     estate_id,
     manager_id,
     commission_fee,
-    sale_date,
-    price,
-    buyer_id,
+    start_date,
+    expire_date,
+    mortgage,
+    rent,
+    renter_id,
   } = req.body;
   if (
     typeof contract_id != "string" ||
     typeof estate_id != "number" ||
     typeof manager_id != "number" ||
     typeof commission_fee != "number" ||
-    typeof new Date(sale_date) != "object" ||
-    typeof price != "number" ||
-    typeof buyer_id != "number"
+    typeof new Date(start_date) != "object" ||
+    typeof new Date(expire_date) != "object" ||
+    typeof mortgage != "number" ||
+    typeof rent != "number" ||
+    typeof renter_id != "number"
   )
     return res.status(400).send("Bad Request");
   try {
@@ -47,8 +51,8 @@ export async function insertContract(req, res) {
     if (!estateRecords.length) {
       return res.status(404).send("owner_id Not found.");
     }
-    const buyerRecords = await db.any(peopleQueries.getPerson, [buyer_id]);
-    if (!buyerRecords.length) {
+    const renterRecords = await db.any(peopleQueries.getPerson, [buyer_id]);
+    if (!renterRecords.length) {
       return res.status(404).send("owner_id Not found.");
     }
     await db.none(queries.insertContract, [
@@ -56,9 +60,11 @@ export async function insertContract(req, res) {
       estate_id,
       manager_id,
       commission_fee,
-      new Date(sale_date),
-      price,
-      buyer_id,
+      new Date(start_date),
+      new Date(expire_date),
+      mortgage,
+      rent,
+      renter_id,
     ]);
     res.status(204).send();
   } catch (error) {
@@ -69,22 +75,25 @@ export async function insertContract(req, res) {
 
 export async function updateContract(req, res) {
   const id = Number(req.params.id);
-  const {
-    contract_id,
+  const {  contract_id,
     estate_id,
     commission_fee,
-    sale_date,
-    price,
-    buyer_id,
-  } = req.body;
+    start_date,
+    expire_date,
+    mortgage,
+    rent,
+    renter_id, } =
+    req.body;
   if (
-    typeof id != "number"||
+    typeof id != "number" ||
     typeof contract_id != "string" ||
     typeof estate_id != "number" ||
     typeof commission_fee != "number" ||
-    typeof new Date(sale_date) != "object" ||
-    typeof price != "number" ||
-    typeof buyer_id != "number"
+    typeof new Date(start_date) != "object" ||
+    typeof new Date(expire_date) != "object" ||
+    typeof mortgage != "number" ||
+    typeof rent != "number" ||
+    typeof renter_id != "number"
   )
     return res.status(400).send("Bad Request");
   try {
@@ -92,8 +101,8 @@ export async function updateContract(req, res) {
     if (!estateRecords.length) {
       return res.status(404).send("owner_id Not found.");
     }
-    const buyerRecords = await db.any(peopleQueries.getPerson, [buyer_id]);
-    if (!buyerRecords.length) {
+    const renterRecords = await db.any(peopleQueries.getPerson, [buyer_id]);
+    if (!renterRecords.length) {
       return res.status(404).send("owner_id Not found.");
     }
     await db.none(queries.updateContract, [
@@ -101,9 +110,11 @@ export async function updateContract(req, res) {
       contract_id,
       estate_id,
       commission_fee,
-      new Date(sale_date),
-      price,
-      buyer_id,
+      new Date(start_date),
+      new Date(expire_date),
+      mortgage,
+      rent,
+      renter_id,
     ]);
     res.status(204).send();
   } catch (error) {

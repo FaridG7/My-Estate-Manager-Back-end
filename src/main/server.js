@@ -5,7 +5,8 @@ import { authenticateToken } from "../authorization/controller";
 import managerRoute from "./manager/managerRoute";
 import peopleRoute from "./people/peopleRoute";
 import estatesRoute from "./estates/estatesRoute";
-
+import saleContractsRoute from "./contracts/saleContracts/saleContractsRoute";
+import rentContractsRoute from "./contracts/rentContracts/rentContractsRoute";
 
 const app = express();
 
@@ -24,6 +25,8 @@ app.use(authenticateToken);
 app.use("/manager", managerRoute);
 app.use("/people", peopleRoute);
 app.use("/estates", estatesRoute);
+app.use("/contracts/sale", saleContractsRoute);
+app.use("/contracts/rent", rentContractsRoute);
 
 app.listen(PORT, (err) => {
   if (err) {

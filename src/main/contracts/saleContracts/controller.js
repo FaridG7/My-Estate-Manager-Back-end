@@ -1,11 +1,13 @@
-import db from "../../postgresDB/db.js";
+import db from "../../../postgresDB/db.js";
 import { queries } from "./queries.js";
-import { queries as peopleQueries } from "../people/queries.js";
+import { queries as peopleQueries } from "../../people/queries.js";
 import { queries as estatesQueries } from "../../estates/queries.js";
 
 export async function getContract(req, res) {
+  const id = Number(req.params.id);
+  if (typeof id != "number") return res.status(400).send("Bad Request");
   try {
-    const contract = await db.one(queries.getContract);
+    const contract = await db.one(queries.getContract, [id]);
     res.json(contract);
   } catch (error) {
     console.error("error: ", error);
@@ -45,11 +47,11 @@ export async function insertContract(req, res) {
   try {
     const estateRecords = await db.any(estatesQueries.getEstate, [estate_id]);
     if (!estateRecords.length) {
-      return res.status(404).send("owner_id Not found.");
+      return res.status(404).send("estate_id Not found.");
     }
     const buyerRecords = await db.any(peopleQueries.getPerson, [buyer_id]);
     if (!buyerRecords.length) {
-      return res.status(404).send("owner_id Not found.");
+      return res.status(404).send("buyer_id Not found.");
     }
     await db.none(queries.insertContract, [
       contract_id,
@@ -69,16 +71,10 @@ export async function insertContract(req, res) {
 
 export async function updateContract(req, res) {
   const id = Number(req.params.id);
-  const {
-    contract_id,
-    estate_id,
-    commission_fee,
-    sale_date,
-    price,
-    buyer_id,
-  } = req.body;
+  const { contract_id, estate_id, commission_fee, sale_date, price, buyer_id } =
+    req.body;
   if (
-    typeof id != "number"||
+    typeof id != "number" ||
     typeof contract_id != "string" ||
     typeof estate_id != "number" ||
     typeof commission_fee != "number" ||
@@ -90,11 +86,11 @@ export async function updateContract(req, res) {
   try {
     const estateRecords = await db.any(estatesQueries.getEstate, [estate_id]);
     if (!estateRecords.length) {
-      return res.status(404).send("owner_id Not found.");
+      return res.status(404).send("estate_id Not found.");
     }
     const buyerRecords = await db.any(peopleQueries.getPerson, [buyer_id]);
     if (!buyerRecords.length) {
-      return res.status(404).send("owner_id Not found.");
+      return res.status(404).send("buyer_id Not found.");
     }
     await db.none(queries.updateContract, [
       id,
@@ -114,6 +110,7 @@ export async function updateContract(req, res) {
 
 export async function deleteContract(req, res) {
   const id = Number(req.params.id);
+  if (typeof id != "number") return res.status(400).send("Bad Request");
   try {
     const records = await db.any(queries.getContract, [id]);
     if (!records.length) {

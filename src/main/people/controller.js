@@ -39,8 +39,9 @@ export async function getRenters(req, res) {
 }
 
 export async function getPerson(req, res) {
+  const id = Number(req.params.id);
   try {
-    const person = await db.one(queries.getPerson);
+    const person = await db.one(queries.getPerson, [id]);
     res.json(person);
   } catch (error) {
     console.error("error: ", error);

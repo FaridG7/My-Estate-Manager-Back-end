@@ -75,19 +75,19 @@ export async function updatePerson(req, res) {
 
 export async function insertPerson(req, res) {
   const { first_name, last_name, phone_number, meli_code } = req.body;
-  if (!first_name || !last_name || !meli_code || !phone_number)
+  if (!first_name || !last_name || !meli_code)
     return res.status(404).send("Bad Request");
   try {
     await db.none(queries.insertPerson, [
       first_name,
       last_name,
       meli_code,
-      phone_number,
+      phone_number || null,
     ]);
     res.status(204).send();
   } catch (error) {
     console.error("error: ", error);
-    return res.status(500).send("Internal Error");
+    return res.status(400).send("Bad Request");
   }
 }
 

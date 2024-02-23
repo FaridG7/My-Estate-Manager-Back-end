@@ -38,6 +38,16 @@ export async function getRenters(req, res) {
   }
 }
 
+export async function getNonUsed(req, res) {
+  try {
+    const nonUsedPeople = await db.any(queries.getNonUsed);
+    res.json(nonUsedPeople);
+  } catch (error) {
+    console.error("error: ", error);
+    return res.status(500).send("Internal Error");
+  }
+}
+
 export async function getPerson(req, res) {
   const id = Number(req.params.id);
   try {

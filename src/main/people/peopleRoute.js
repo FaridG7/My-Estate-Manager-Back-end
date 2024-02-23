@@ -1,6 +1,7 @@
 import {
   deletePerson,
   getBuyers,
+  getNonUsed,
   getOwners,
   getPeople,
   getPerson,
@@ -16,6 +17,7 @@ router.get("/", getPeople);
 router.get("/owners", getOwners);
 router.get("/buyers", getBuyers);
 router.get("/renters", getRenters);
+router.get("/nonUsed", getNonUsed);
 
 router.get("/:id", getPerson);
 

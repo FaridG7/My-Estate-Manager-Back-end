@@ -1,0 +1,9 @@
+240224 135754.432|CONFIG|main|log|Now logging to E:\Projects\My Estate Manager\Back-end\logs directory.
+240224 135754.442|INFO|main|log|
+240224 135754.452|INFO|main|log|Version 9.9.0 20231130 (Thursday, November 30th 2023 19:35 UTC) Java ver 17.0.2 build 6795 Windows 10 10.0 (amd64) 
+240224 135754.452|INFO|main|log|Working directory is E:\Projects\My Estate Manager\Back-end
+240224 135754.589|INFO|main|log|Process id is 11496@DESKTOP-9VEKLD2
+240224 135754.591|INFO|main|log|Starting ConnectionManager...
+240224 135754.875|INFO|main|log|Started ConnectionManager
+240224 135754.877|SEVERE|main|log|Cannot start PC^2, pc2v9.ini file not found in E:\Projects\My Estate Manager\Back-end
+240224 135754.878|INFO|main|log|PC^2 halted
